@@ -28,6 +28,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'valloric/youcompleteme'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'mattn/emmet-vim'
+Plugin 'zhou13/vim-easyescape'
 
 " MAKE SURE YOU HAVE THIS LINE. OTHERWISE NOTHING WILL WORK BC YOU WERE DUMB
 " AND YOU FORGOT THIS LINE. >:|
@@ -164,3 +165,7 @@ let g:ycm_server_python_interpreter='python2'
 " to use it.
 let g:instant_markdown_autostart = 0
 
+" Use vim-easyescape to help reduce visual pause when remapping ESC
+let g:easyescape_chars = { "j": 2 }
+let g:easyescape_timeout = 1000
+cnoremap jj <ESC>
