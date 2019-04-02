@@ -29,6 +29,8 @@ Plugin 'valloric/youcompleteme'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'zhou13/vim-easyescape'
+Plugin 'mileszs/ack.vim'
+Plugin 'mattn/webapi-vim'
 
 " MAKE SURE YOU HAVE THIS LINE. OTHERWISE NOTHING WILL WORK BC YOU WERE DUMB
 " AND YOU FORGOT THIS LINE. >:|
@@ -43,8 +45,13 @@ syntax on
 filetype plugin on
 filetype plugin indent on
 
-" TODO: Pick a leader key
-" let mapleader = ","
+" Pick a leader key
+let mapleader = ","
+
+" No swapfile backups
+set noswapfile
+set nowritebackup
+set nobackup
 
 " Security
 set modelines=0
@@ -116,24 +123,16 @@ set incsearch
 set ignorecase
 set smartcase
 set showmatch
-map <leader><space> :let @/=''<cr> " clear search
+" clear search
+map <leader><space> :let @/=''<cr> 
 
 " Remap help key.
 inoremap <F2> <ESC>:set invfullscreen<CR>a
 nnoremap <F2> :set invfullscreen<CR>
 vnoremap <F2> :set invfullscreen<CR>
 
-" Textmate holdouts
-
-" Formatting
-map <leader>q gqip
-
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
-" Uncomment this to enable by default:
-" set list " To enable by default
-" Or use your leader key + l to toggle on/off
-map <leader>l :set list!<CR> " Toggle tabs and EOL
 
 " Color scheme (terminal)
 set t_Co=256
@@ -148,11 +147,14 @@ hi Normal guibg=NONE ctermbg=NONE
 " Force *.md files as Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+" Force .babelrc to be read as json
+autocmd BufRead,BufNewFile,BufReadPost .babelrc set filetype=json
+
 " Remap <f1> to open NERDTree
 nnoremap <F1> :NERDTreeToggle<CR>
 
 " Set Vim-Airline theme
-let g:airline_theme='powerlineish'
+let g:airline_theme='simple'
 
 " Install dem fancy Powerline fonts from airline-themes
 let g:airline_powerline_fonts=1
@@ -165,7 +167,15 @@ let g:ycm_server_python_interpreter='python2'
 " to use it.
 let g:instant_markdown_autostart = 0
 
+" remap Ctrl + / to Commentary for both Normal and Visual modes (NOTE: for some reason, Vim interprets / as _)
+nnoremap <C-_> :Commentary<CR>
+vnoremap <C-_> :Commentary<CR>
+
 " Use vim-easyescape to help reduce visual pause when remapping ESC
 let g:easyescape_chars = { "j": 2 }
 let g:easyescape_timeout = 1000
 cnoremap jj <ESC>
+
+" Map Shift + F to Ack.vim
+nnoremap <S-F> :Ack<space>
+
