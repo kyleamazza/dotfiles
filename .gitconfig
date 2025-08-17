@@ -1,29 +1,107 @@
-# Replace the necessary fields with your own info.
 [user]
-	name = # username
-	email = # email
+  name = Kyle Mazza
+  email = kyle.mazza@floqast.com
+
+[color]
+  all = true
+  ui = true
+
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+
+[interactive]
+  diffFilter = delta --color-only --features=interactive
+
+[delta]
+  features = decorations
+
+[delta "interactive"]
+  keep-plus-minus-markers = false
+
+[delta "decorations"]
+  commit-decoration-style = blue ol
+  commit-style = raw
+  file-style = omit
+  hunk-header-decoration-style = blue box
+  hunk-header-file-style = red
+  hunk-header-line-number-style = "#067a00"
+  hunk-header-style = file line-number syntax
+
 [push]
-	default = simple
+  default = simple
+
+[core]
+  quotepath = false
+  editor = nvim
+	
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = false
 
 [alias]
-    lg = !"git lg1"
-    lg1 = !"git lg1-specific --all"
-    lg2 = !"git lg2-specific --all"
-    lg3 = !"git lg3-specific --all"
-
-    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
-    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+  parent = ""
+  new = ""
+  delete = ""
+  ls = ""
+  rename = ""
 
 [alias]
-  parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
-  new = "!f() { curl -s -i -X POST -u \"$(git config --global user.name)\" https://api.github.com/user/repos -d '{\"name\": \"'$1'\"}'; echo \"$1\"; }; f"
-  delete = "!f() { curl -i -X DELETE -u \"$(git config --global user.name)\" https://api.github.com/repos/$(git config --global user.name)/$1; }; f"
-  ls = "!f() { curl -s -u \"$(git config --global user.name)\" https://api.github.com/user/repos?sort=created; }; f | python3 -c \"import sys, json; [print(x['full_name']) for x in json.load(sys.stdin)]\""
-  rename = "!f() { curl -s -o /dev/null -w \"%{http_code}\n\" -X PATCH -u $(git config --global user.name) https://api.github.com/repos/$(git config --global user.name)/$1 -d '{\"name\":\"'$2'\"}'; }; f"
-
-[alias]
-  cm = "commit -m"
-  pom = "push origin master"
+  author="shortlog -sne --no-merges"
+  authors="shortlog -sne --no-merges"
+  c = "commit"
+  cm = "commit"
+  cmm = "commit -m"
+  commitcrime = "commit --no-verify"
+  ca = "commit --amend"
+  cv = "commit --verbose"
+  current = "symbolic-ref --short HEAD"
+  pom = "push origin main"
+  poc = "!f() { git push origin $(git current); }; f"
+  isweartoholymotherof = "!f() { git push origin --no-verify $(git current); }; f"
+  please = "isweartoholymotherof"
+  justdoit = "please"
+  fkndoit = "!f() { git push origin --no-verify --force $(git current); }; f"
+  pushcrime = "fkndoit"
+  pof = "!f() { git push origin --force $(git current); }; f"
+  puof = "!f() { git pull origin --force $(git current); }; f"
+  puoc = "!f() { git pull origin $(git current); }; f"
   s = "status"
-  addl = "add ."
+  b = "branch"
+  d = "diff"
+  ds = "diff --staged"
+  co = "checkout"
+  cot = "!f() { git fetch &> /dev/null; git checkout --track origin/$1; }; f"
+  addl = "!f() { git ls-files --modified | xargs git add; }; f"
+  addlu = "add ."
+  boom = "!f() { echo \"Resetting files...\"; git reset --hard HEAD; }; f"
+  rename = "branch -m"
+  rn = "rename"
+  rb = "rebase"
+  rbc = "rb --continue"
+  rba = "rb --abort"
+  sw = "!f() { git fetch &> /dev/null; git switch $1; }; f"
+  st = "stash"
+  std = "stash drop"
+  sl = "stash list"
+  slist = "stash list"
+  slook = "stash list"
+  speep = "stash list"
+  sp = "stash pop"
+  spop = "stash pop"
+  spoop = "stash pop"
+  poop = "stash pop"
+  reattachhead = "switch -"
+  recapitate = "switch -"
+  wip = "!f() { git addlu && git commitcrime -m \"WIP: $1\"; }; f"
+  wipa = "!f() { git addlu && git ca --no-verify; }; f"
+
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
